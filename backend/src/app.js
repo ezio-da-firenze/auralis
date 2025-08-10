@@ -14,7 +14,7 @@ const followRoutes = require("./routes/followRoutes");
 const app = express();
 
 const corsOptions = {
-    origin: ["http://localhost:3001", "http://localhost:5173"],
+    origin: ["http://localhost:3001", "http://localhost:5173", "https://auralis-frontend-fdj1.onrender.com"],
     credentials: true, // to allow cookies
 };
 
