@@ -26,7 +26,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
 // Routes
+// Health Check
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/communities", communityRoutes);
