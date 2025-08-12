@@ -6,6 +6,7 @@ import {
     Text,
     Flex,
     Button,
+    Input,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getFeed } from "../services/feed";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 const FeedPage = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,6 +34,20 @@ const FeedPage = () => {
         fetchFeed();
     }, []);
 
+    // Filter posts by author name or community name
+    const filteredPosts = posts.filter((post) => {
+        const query = searchQuery.trim().toLowerCase();
+        if (!query) return true; // If search is empty, show all
+
+        const authorMatch = post.author?.username
+            ?.toLowerCase()
+            .includes(query);
+        const communityMatch = post.community?.name
+            ?.toLowerCase()
+            .includes(query);
+        return authorMatch || communityMatch;
+    });
+
     return (
         <Box p={6}>
             <Flex justify="space-between" align="center" mb={4}>
@@ -44,14 +60,21 @@ const FeedPage = () => {
                 </Button>
             </Flex>
 
+            <Input
+                placeholder="Search by author or community..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                mb={4}
+            />
+
             {loading ? (
                 <Spinner />
             ) : (
                 <VStack spacing={4} align="stretch">
-                    {posts.length === 0 ? (
+                    {filteredPosts.length === 0 ? (
                         <Text>No posts available.</Text>
                     ) : (
-                        posts.map((post) => (
+                        filteredPosts.map((post) => (
                             <FeedCard key={post._id} post={post} />
                         ))
                     )}
