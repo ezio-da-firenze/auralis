@@ -28,10 +28,8 @@ const updateProfile = asyncHandler(async (req, res) => {
 
 const getUserProfileById = async (req, res) => {
     try {
-        const profile = await userService.getUserProfile(
-            req.params.id,
-            req.user?._id
-        );
+        const profile = await userService.getUserProfile(req.params.id);
+        // const profile = await userService.getUserProfile(req.params.id, req.user?._id);
         res.status(200).json(profile);
     } catch (error) {
         res.status(404).json({ message: error.message });
