@@ -12,10 +12,10 @@ import {
     Badge,
 } from "@chakra-ui/react";
 import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
+import { Link } from "react-router-dom"; // ✅ Added
 import { togglePostLike, getPostComments, addComment } from "../services/post";
 import { useAuth } from "../contexts/AuthContext";
 import CommentCard from "./CommentCard";
-import { Link } from "react-router-dom";
 
 // Utility to format date as "time ago"
 const timeAgo = (dateString) => {
@@ -75,15 +75,16 @@ const FeedCard = ({ post }) => {
         }
     };
 
-    // Post visibility tag logic
+    // Tag logic
     let tag = "Public";
+    let displayTag = "Public";
+
     if (user.following.includes(post.author._id)) {
         tag = "Following";
-    } else if (
-        post.community &&
-        user.joinedCommunities.includes(post.community._id)
-    ) {
+        displayTag = "Following";
+    } else if (post.community) {
         tag = "Community";
+        displayTag = `Community - ${post.community.name}`;
     }
 
     const tagColor = {
@@ -99,15 +100,33 @@ const FeedCard = ({ post }) => {
                 <Text fontWeight="bold" ml={2}>
                     {post.author.username}
                 </Text>
-                <Badge
-                    ml={2}
-                    colorScheme={tagColor[tag]}
-                    fontSize="0.7em"
-                    borderRadius="full"
-                    px={2}
-                >
-                    {tag}
-                </Badge>
+
+                {post.community ? (
+                    <Link to={`/communities/${post.community._id}`}>
+                        <Badge
+                            ml={2}
+                            colorScheme={tagColor[tag]}
+                            fontSize="0.7em"
+                            borderRadius="full"
+                            px={2}
+                            cursor="pointer"
+                            _hover={{ opacity: 0.8 }}
+                        >
+                            {displayTag}
+                        </Badge>
+                    </Link>
+                ) : (
+                    <Badge
+                        ml={2}
+                        colorScheme={tagColor[tag]}
+                        fontSize="0.7em"
+                        borderRadius="full"
+                        px={2}
+                    >
+                        {displayTag}
+                    </Badge>
+                )}
+
                 <Spacer />
                 <Text fontSize="xs" color="gray.500">
                     {timeAgo(post.createdAt)}
