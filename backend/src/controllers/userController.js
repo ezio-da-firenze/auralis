@@ -26,7 +26,7 @@ const updateProfile = asyncHandler(async (req, res) => {
     }
 });
 
-exports.getUserProfile = async (req, res) => {
+const getUserProfileById = async (req, res) => {
     try {
         const profile = await userService.getUserProfile(
             req.params.id,
@@ -38,4 +38,4 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { getProfile, updateProfile };
+module.exports = { getProfile, updateProfile, getUserProfileById };
