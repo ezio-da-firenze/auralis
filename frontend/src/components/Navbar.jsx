@@ -50,9 +50,10 @@ const Navbar = () => {
             </Button>
             {user && (
                 <>
-                    <Button as={RouterLink} to="/search" variant="ghost">
+{/*                     <Button as={RouterLink} to="/search" variant="ghost">
                         Search
                     </Button>
+*/}
                     <Button as={RouterLink} to="/communities" variant="ghost">
                         Communities
                     </Button>
