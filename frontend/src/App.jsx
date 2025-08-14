@@ -15,6 +15,8 @@ import CreatePostPage from "./pages/CreatePostPage";
 import CreateCommunityPage from "./pages/CreateCommunityPage";
 import CommunitiesPage from "./pages/CommunitiesPage";
 import CommunityDetail from "./components/CommunityDetail";
+import UserProfilePage from "./pages/UserProfilePage";
+
 
 const App = () => {
     return (
