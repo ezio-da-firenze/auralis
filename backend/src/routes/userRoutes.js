@@ -6,5 +6,7 @@ const router = express.Router();
 
 router.get("/me", protect, getProfile);
 router.post("/me", protect, updateProfile);
+router.get("/:id", protect, getUserProfileById);
+
 
 module.exports = router;
