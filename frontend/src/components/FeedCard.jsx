@@ -12,12 +12,11 @@ import {
     Badge,
 } from "@chakra-ui/react";
 import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
-import { Link } from "react-router-dom"; // ✅ Added
+import { Link } from "react-router-dom";
 import { togglePostLike, getPostComments, addComment } from "../services/post";
 import { useAuth } from "../contexts/AuthContext";
 import CommentCard from "./CommentCard";
 
-// Utility to format date as "time ago"
 const timeAgo = (dateString) => {
     const now = new Date();
     const postDate = new Date(dateString);
@@ -84,7 +83,12 @@ const FeedCard = ({ post }) => {
         displayTag = "Following";
     } else if (post.community) {
         tag = "Community";
-        displayTag = `Community - ${post.community.name}`;
+        // displayTag = `Community - ${
+        //     post.community.name ? post.community.name : ""
+        // }`;
+        displayTag = post.community.name
+            ? "Community: " + post.community.name
+            : "";
     }
 
     const tagColor = {
@@ -96,10 +100,24 @@ const FeedCard = ({ post }) => {
     return (
         <Box p={4} shadow="md" borderWidth="1px" borderRadius="md" mb={4}>
             <Flex align="center" mb={2}>
-                <Avatar size="sm" name={post.author.username} />
-                <Text fontWeight="bold" ml={2}>
-                    {post.author.username}
-                </Text>
+                <Link to={`/profile/${post.author._id}`}>
+                    <Avatar
+                        size="sm"
+                        name={post.author.username}
+                        cursor="pointer"
+                        _hover={{ opacity: 0.8 }}
+                    />
+                </Link>
+                <Link to={`/profile/${post.author._id}`}>
+                    <Text
+                        fontWeight="bold"
+                        ml={2}
+                        cursor="pointer"
+                        _hover={{ textDecoration: "underline" }}
+                    >
+                        {post.author.username}
+                    </Text>
+                </Link>
 
                 {post.community ? (
                     <Link to={`/communities/${post.community._id}`}>
