@@ -52,6 +52,14 @@ const App = () => {
                                 }
                             />
                             <Route
+                                path="/profile/:id"
+                                element={
+                                    <PrivateRoute>
+                                        <UserProfilePage />
+                                    </PrivateRoute>
+                                }
+                            />
+                            <Route
                                 path="/followers"
                                 element={
                                     <PrivateRoute>
